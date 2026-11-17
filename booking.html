@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pesan Mobil | Lala Rent Car</title>
+  <meta name="description" content="Pesan mobil sewa Lala Rent Car dalam 3 langkah. Estimasi harga langsung, konfirmasi via WhatsApp.">
+  <meta name="theme-color" content="#0f1a16">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>(function(d){d.classList.add('js');try{if(sessionStorage.getItem('lala-nav')){d.classList.add('is-entering');sessionStorage.removeItem('lala-nav')}}catch(e){}setTimeout(function(){d.classList.remove('is-entering')},2500)})(document.documentElement)</script>
+</head>
+<body data-page="booking" data-no-mbar>
+  <div class="ptrans" aria-hidden="true"><div class="ptrans__panel ptrans__panel--1"></div><div class="ptrans__panel ptrans__panel--2"></div><div class="ptrans__logo">lala.</div></div>
+
+  <main class="booking">
+    <div class="container">
+      <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><i data-lucide="chevron-right"></i><span>Pesan Mobil</span></nav>
+      <div class="section-head" style="margin-bottom:32px">
+        <h1 class="h1" data-split>Pesan dalam <span class="serif accent">satu menit.</span></h1>
+        <p class="lead" data-reveal>Isi detail perjalanan, cek estimasi harga, lalu kirim pesanan langsung ke WhatsApp admin. Tanpa akun, tanpa bayar di muka di website.</p>
+      </div>
+
+      <div class="booking__grid">
+        <form class="panel" id="booking-form" novalidate data-reveal>
+          <div class="progress" aria-hidden="true">
+            <div class="progress__road">
+              <div class="progress__fill"></div>
+              <div class="progress__car">
+                <svg viewBox="0 0 64 32" fill="none"><path d="M6 22h52c1.7 0 3-1.3 3-3v-2.6c0-1.6-1.1-2.9-2.6-3.2L47 11 39.5 4.4A6 6 0 0 0 35.5 3H18.6c-2 0-3.9 1-5 2.7L9 11.5 5.4 12.6C3.4 13.2 2 15 2 17.1V18c0 2.2 1.8 4 4 4Z" fill="currentColor"/><path d="M15 11.5 18.6 6h8.4v5.5H15Zm15 0V6h5.5l6 5.5H30Z" fill="#0f1a16" opacity=".55"/><circle cx="16" cy="23" r="5.5" fill="#0f1a16"/><circle cx="16" cy="23" r="2.5" fill="#f5f0e6"/><circle cx="48" cy="23" r="5.5" fill="#0f1a16"/><circle cx="48" cy="23" r="2.5" fill="#f5f0e6"/><rect x="56" y="14" width="4" height="2.5" rx="1" fill="#fff6d6"/></svg>
+              </div>
+              <i data-lucide="flag" class="progress__flag"></i>
+            </div>
+            <div class="progress__labels">
+              <span class="is-current"><b>1</b><em>Mobil & Jadwal</em></span>
+              <span><b>2</b><em>Data Pemesan</em></span>
+              <span><b>3</b><em>Konfirmasi</em></span>
+            </div>
+          </div>
+
+          <!-- STEP 1 -->
+          <div class="bstep is-active" data-step="1">
+            <div class="bstep__head"><h2>Pilih mobil & jadwal</h2><p>Harga di samping diperbarui otomatis.</p></div>
+            <div class="form-grid">
+              <div class="field" data-field="car">
+                <span class="field__label">Mobil <em>7 unit tersedia</em></span>
+                <div class="car-pick" id="car-pick" role="radiogroup" aria-label="Pilih mobil"></div>
+                <span class="field__err">Pilih salah satu mobil dulu, ya.</span>
+              </div>
+              <div class="field">
+                <span class="field__label">Jenis layanan</span>
+                <div class="seg" role="tablist" aria-label="Jenis layanan">
+                  <span class="seg__thumb"></span>
+                  <button type="button" role="tab" data-mode="lepas">Lepas Kunci<small>setir sendiri</small></button>
+                  <button type="button" role="tab" data-mode="sopir">Dengan Sopir<small>12 jam/hari</small></button>
+                </div>
+              </div>
+              <div class="form-grid form-grid--2">
+                <div class="field" data-field="date"><label for="b-date">Tanggal mulai</label><input class="input" type="date" id="b-date" name="date"><span class="field__err">Tanggal tidak boleh di masa lalu.</span></div>
+                <div class="field"><label for="b-time">Jam mulai</label><select class="select" id="b-time" name="time"></select></div>
+              </div>
+              <div class="form-grid form-grid--2">
+                <div class="field"><span class="field__label">Durasi <em id="dur-unit">hari</em></span>
+                  <div class="qty"><button type="button" data-q="-1" aria-label="Kurangi hari"><i data-lucide="minus"></i></button><output id="days-out">1 hari</output><button type="button" data-q="1" aria-label="Tambah hari"><i data-lucide="plus"></i></button></div>
+                </div>
+                <div class="field"><label for="b-zone">Antar / jemput unit</label><select class="select" id="b-zone" name="zone"></select></div>
+              </div>
+              <div class="field" id="addr-wrap" data-field="address"><label for="b-address">Alamat / titik jemput <em>atau no. penerbangan untuk bandara</em></label><input class="input" id="b-address" name="address" placeholder="Contoh: Jl. Wolter Monginsidi No. 8, Kebayoran Baru"><span class="field__err">Mohon isi alamat atau titik jemput.</span></div>
+              <label class="checkbox" id="bbm-wrap" hidden><input type="checkbox" name="bbm" id="b-bbm"><span><b>All-in BBM</b> — bensin/solar ditanggung kami, Anda cukup duduk manis.</span></label>
+            </div>
+            <div class="bstep__nav">
+              <a href="armada.html" class="btn btn--ghost">Lihat armada</a>
+              <button type="button" class="btn btn--dark" data-next>Lanjut <i data-lucide="arrow-right" class="arrow"></i></button>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="bstep" data-step="2">
+            <div class="bstep__head"><h2>Data pemesan</h2><p>Hanya untuk konfirmasi. Data Anda tidak disimpan di website.</p></div>
+            <div class="form-grid form-grid--2">
+              <div class="field" data-field="fullname"><label for="b-name">Nama lengkap <em>sesuai KTP</em></label><input class="input" id="b-name" name="fullname" autocomplete="name" placeholder="Nama Anda"><span class="field__err">Nama minimal 3 huruf.</span></div>
+              <div class="field" data-field="phone"><label for="b-phone">Nomor WhatsApp</label><input class="input" id="b-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0812 3456 7890"><span class="field__err">Format nomor belum benar (contoh: 0812…).</span></div>
+              <div class="field span-2"><label for="b-purpose">Keperluan</label>
+                <select class="select" id="b-purpose" name="purpose">
+                  <option>Pribadi / keluarga</option><option>Bisnis / kantor</option><option>Wisata / luar kota</option><option>Pernikahan / acara</option><option>Antar-jemput bandara</option><option>Mudik</option>
+                </select>
+              </div>
+              <div class="field span-2"><label for="b-notes">Catatan <em>opsional</em></label><textarea class="textarea" id="b-notes" name="notes" placeholder="Contoh: butuh kursi bayi, tujuan ke Bandung, jemput di lobby utara…"></textarea></div>
+            </div>
+
+            <div class="docs-box mt-24" id="docs-lepas">
+              <strong>Dokumen untuk lepas kunci</strong>
+              <ul>
+                <li><i data-lucide="id-card"></i>KTP elektronik & SIM A aktif atas nama pemesan</li>
+                <li><i data-lucide="file-text"></i>Kartu Keluarga + 1 dokumen pendukung (NPWP / ID karyawan / kartu mahasiswa)</li>
+                <li><i data-lucide="wallet"></i>Deposit Rp 1.000.000 — dikembalikan penuh setelah unit kembali</li>
+              </ul>
+              <div class="field" data-field="docs">
+                <label class="checkbox" style="background:#fff;border:1.5px solid var(--line)"><input type="checkbox" name="docs" id="b-docs"><span>Saya siap menunjukkan dokumen di atas saat serah terima unit.</span></label>
+                <span class="field__err">Mohon centang konfirmasi dokumen.</span>
+              </div>
+            </div>
+            <div class="docs-box mt-24" id="docs-sopir" hidden>
+              <strong>Dengan sopir — syarat lebih ringan</strong>
+              <ul><li><i data-lucide="id-card"></i>Cukup foto KTP penanggung jawab. Tanpa deposit.</li></ul>
+            </div>
+
+            <div class="bstep__nav">
+              <button type="button" class="btn btn--ghost" data-prev><i data-lucide="arrow-left"></i> Kembali</button>
+              <button type="button" class="btn btn--dark" data-next>Tinjau Pesanan <i data-lucide="arrow-right" class="arrow"></i></button>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="bstep" data-step="3">
+            <div class="bstep__head"><h2>Tinjau & kirim</h2><p>Pesanan dikirim sebagai pesan WhatsApp. Admin akan mengonfirmasi ketersediaan & detail DP.</p></div>
+            <div class="review" id="review"></div>
+            <div class="mt-24">
+              <span class="field__label" style="margin-bottom:10px;display:block">Pratinjau pesan WhatsApp</span>
+              <div class="wa-preview"><div class="wa-preview__bubble" id="wa-preview"></div><div class="wa-preview__meta" id="wa-time"></div></div>
+            </div>
+            <p class="note mt-16"><i data-lucide="shield-check"></i><span>Belum ada pembayaran apa pun di website. DP 30% dibayarkan setelah admin mengonfirmasi unit tersedia.</span></p>
+            <div class="bstep__nav">
+              <button type="button" class="btn btn--ghost" data-prev><i data-lucide="arrow-left"></i> Kembali</button>
+              <button type="submit" class="btn btn--wa btn--lg" data-magnetic><span data-wa-icon></span>Kirim via WhatsApp</button>
+            </div>
+          </div>
+
+          <!-- SUCCESS -->
+          <div class="success" role="status">
+            <div class="success__icon"><i data-lucide="check"></i></div>
+            <h2 class="h2">Terima kasih, <span class="serif accent" id="success-name">kak</span>!</h2>
+            <p class="lead" style="margin:14px auto 0">Pesanan Anda sudah terbuka di WhatsApp. Tekan <b>kirim</b> di aplikasi WhatsApp, lalu admin akan membalas dalam ± 5 menit.</p>
+            <span class="plate plate--lg" id="success-code">LALA-0000<small>KODE BOOKING</small></span>
+            <div class="flex wrap gap-12 mt-32" style="justify-content:center">
+              <a class="btn btn--wa" id="success-wa" target="_blank" rel="noopener"><span data-wa-icon></span>Buka WhatsApp lagi</a>
+              <a class="btn btn--ghost" href="index.html">Kembali ke beranda</a>
+            </div>
+          </div>
+        </form>
+
+        <aside class="side" aria-label="Ringkasan pesanan">
+          <div class="panel" style="display:grid;gap:18px">
+            <div class="flex justify-between items-center"><strong>Ringkasan</strong><span class="tag tag--line"><i data-lucide="lock"></i>Harga terkunci</span></div>
+            <div class="side-car" id="side-car"></div>
+            <div class="summary" id="side-summary"></div>
+            <div class="trust-row"><span><i data-lucide="shield-check"></i>Asuransi all-risk</span><span><i data-lucide="undo-2"></i>Reschedule gratis 1x</span><span><i data-lucide="headset"></i>Bantuan 24 jam</span></div>
+          </div>
+          <div class="help-card">
+            <strong>Butuh bantuan memilih?</strong>
+            <p>Ceritakan jumlah penumpang & tujuan Anda — admin akan merekomendasikan unit terbaik.</p>
+            <a class="btn btn--wa btn--sm" data-wa="Halo Lala Rent Car, saya butuh rekomendasi mobil untuk perjalanan saya." target="_blank" rel="noopener" style="justify-self:start"><span data-wa-icon></span>Tanya Admin</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/pages.js"></script>
+</body>
+</html>
