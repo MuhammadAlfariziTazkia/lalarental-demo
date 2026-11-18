@@ -1,7 +1,11 @@
-# Lala Rent Car — Demo Website
+# Lala Rent Car — Website
 
-Mock website rental mobil Jakarta: katalog armada, detail mobil + kalkulator harga, dan booking 3 langkah yang dikirim langsung ke WhatsApp.
+**Lala Rent Car | Sewa Mobil Jabodetabek & Nusantara** — base Bekasi.
 
-Website statis (HTML/CSS/JS) — tanpa build step. Data armada, harga, dan nomor WhatsApp ada di `assets/js/data.js`.
+Website satu halaman (HTML/CSS/JS statis, tanpa build step) dengan urutan sesuai data client:
+Hero → Armada & harga → Cara Pesan → Layanan → Kenapa Pilih Kami → FAQ → Kontak.
 
-**Catatan:** ini demo. Nomor WhatsApp, testimoni, dan rating masih contoh; foto armada adalah foto stok ilustrasi. Sumber & lisensi aset ada di [CREDITS.md](CREDITS.md).
+- Semua isi bisnis (harga, layanan, FAQ, nomor WhatsApp) ada di satu file: `assets/js/data.js`.
+- Semua tombol **Pesan via WhatsApp** langsung ke WA 0812-1806-6593.
+- Foto mobil adalah foto ilustrasi model (bukan foto unit). Mobil tanpa foto yang akurat ditampilkan dengan siluet + "Foto unit menyusul". Ganti `img` di `data.js` saat foto unit asli tersedia.
+- Sumber & lisensi aset: [CREDITS.md](CREDITS.md).
