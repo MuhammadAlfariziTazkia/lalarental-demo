@@ -48,13 +48,22 @@
         </div>
 
         <div class="hero__visual" data-hero-visual>
-          <div class="spin-ring" aria-hidden="true">
-            <svg viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0"/></defs><text><textPath href="#circ" textLength="298" lengthAdjust="spacing">Lala Rent Car · Jabodetabek · Nusantara · </textPath></text></svg>
+          <div class="showcase" id="showcase" role="region" aria-roledescription="carousel" aria-label="Armada Lala Rent Car">
+            <a class="showcase__link" id="sc-link" href="#armada">
+              <div class="showcase__media" id="sc-media"></div>
+              <div class="showcase__body" id="sc-body" aria-live="off"></div>
+            </a>
+            <div class="showcase__foot">
+              <span class="showcase__count" id="sc-count">01 / 07</span>
+              <div class="showcase__progress" aria-hidden="true"><i id="sc-bar"></i></div>
+              <div class="showcase__dots" id="sc-dots" role="tablist" aria-label="Pilih mobil"></div>
+            </div>
           </div>
-          <div class="hero__frame"><img src="assets/img/hero-road.jpg" alt="Jalan tol di malam hari dengan jejak lampu kendaraan" data-parallax="12" fetchpriority="high"></div>
           <img class="hero__logo" src="assets/img/logo-lala.png" alt="Logo Lala Rent Car" width="104" height="104">
         </div>
       </div>
+
+      <div class="hero-road" id="hero-road" aria-hidden="true"></div>
 
       <div class="facts">
         <div class="container">

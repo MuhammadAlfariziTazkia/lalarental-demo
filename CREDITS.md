@@ -17,7 +17,6 @@ Model dicek visual satu per satu. Plat nomor asli dan branding perusahaan lain p
 | cars/hiace.jpg | Toyota HiAce Commuter (crop; plat & branding diburamkan) | https://www.pexels.com/photo/minivan-traveling-through-scenic-west-java-road-37498790/ |
 | cars/hiace-premio.jpg | Toyota Hiace Premio | https://unsplash.com/photos/K59l2Aly3h8 |
 | cars/fortuner.jpg | Toyota Fortuner (crop; plat diburamkan) | https://www.pexels.com/photo/back-of-a-white-toyota-fortuner-standing-in-a-parking-lot-18240248/ |
-| hero-road.jpg | Jalan tol malam (crop) | https://unsplash.com/photos/Jrj4Jz1AZmg |
 | svc-dengan-sopir.jpg | Pintu mobil terbuka | https://unsplash.com/photos/z6rRsnc4DjI |
 | svc-bandara.jpg | Terminal Bandara Soekarno-Hatta | https://unsplash.com/photos/Gzpx92EGf4A |
 | svc-luar-kota.jpg | Jalan berkelok malam | https://unsplash.com/photos/dTMAPA5nxac |

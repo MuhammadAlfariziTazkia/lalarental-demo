@@ -337,6 +337,7 @@
     tl.from("[data-hero-fade]", { y: 30, opacity: 0, duration: 1.1, ease: "expo.out", stagger: 0.12, clearProps: "transform,opacity" }, 0.3)
       .from("[data-hero-visual]", { y: 60, opacity: 0, duration: 1.4, ease: "expo.out", clearProps: "transform,opacity" }, 0.35)
       .from(".hero__logo", { scale: 0, rotate: -120, duration: 1.4, ease: "back.out(1.6)" }, 0.8)
+      .from(".hero-road", { opacity: 0, duration: 1.2, ease: "power2.out", clearProps: "opacity" }, 0.9)
       .from(".fact", { y: 20, opacity: 0, duration: 1, ease: "expo.out", stagger: 0.08, clearProps: "transform,opacity" }, 0.8);
   }
 

@@ -34,7 +34,7 @@
     const full = `${c.brand} ${c.name}`;
     const msg = `Halo Lala Rent Car, saya mau pesan ${full} (${fmt(c.price)}/${c.unit}).`;
     return `
-      <article class="car-card">
+      <article class="car-card" id="car-${c.id}">
         <div class="car-card__media">
           ${c.img ? `<img src="${c.img}" alt="Foto ilustrasi ${full}" loading="lazy" style="object-position:${c.pos || "center"}">` : fallback(c.body)}
         </div>
@@ -54,8 +54,147 @@
       </article>`;
   }
 
+  /* ---------------- Showcase armada (hero) ---------------- */
+  const pad = (n) => String(n).padStart(2, "0");
+  function showcaseBody(c) {
+    const { fmt, ico } = U();
+    return `
+      <span class="sc-line sc-brand"><span>${c.brand}</span></span>
+      <span class="sc-line sc-name"><span>${c.name}</span></span>
+      <span class="sc-line"><span class="sc-price">
+        <strong data-price="${c.price}">${fmt(c.price)}</strong>
+        <span class="plate">/ ${c.unit.toUpperCase()}</span>
+        ${c.hiaceNote ? `<span class="sc-chip">${ico("fuel")}${L.hiaceNotes[0]}</span>` : ""}
+      </span></span>`;
+  }
+  function renderShowcase() {
+    $("#sc-media").innerHTML = L.cars.map((c, i) => `
+      <div class="sc-slide${i === 0 ? " is-active" : ""}" data-i="${i}">
+        ${c.img ? `<img src="${c.img}" alt="Foto ilustrasi ${c.brand} ${c.name}" style="object-position:${c.pos || "center"}"${i ? ' loading="lazy"' : ""}>` : fallback(c.body)}
+      </div>`).join("");
+    $("#sc-body").innerHTML = showcaseBody(L.cars[0]);
+    $("#sc-dots").innerHTML = L.cars.map((c, i) => `<button type="button" role="tab" aria-selected="${i === 0}" aria-label="${c.brand} ${c.name}" data-i="${i}"></button>`).join("");
+    $("#sc-link").href = `#car-${L.cars[0].id}`;
+    $("#sc-count").textContent = `01 / ${pad(L.cars.length)}`;
+  }
+
+  function renderHeroRoad() {
+    $("#hero-road").innerHTML = ["mpv", "van", "suv"].map((b) =>
+      `<div class="hero-car"><svg viewBox="0 0 320 124">${SILHOUETTE[b]}</svg></div>`).join("");
+  }
+
+  function initShowcase() {
+    const root = $("#showcase");
+    if (!root) return;
+    const { hasGsap, reduce, fmt } = U();
+    const slides = Array.from(root.querySelectorAll(".sc-slide"));
+    const dots = Array.from(root.querySelectorAll("#sc-dots button"));
+    const body = $("#sc-body");
+    const link = $("#sc-link");
+    const bar = $("#sc-bar");
+    const DUR = 3.6;
+    let idx = 0, busy = false, timer = null;
+    const paused = new Set();
+
+    const drawSilhouette = (slide) => {
+      if (!hasGsap || reduce) return;
+      const parts = slide.querySelectorAll(".car-fallback path:not(.ground), .car-fallback circle");
+      parts.forEach((p) => { const l = p.getTotalLength(); gsap.fromTo(p, { strokeDasharray: l, strokeDashoffset: l }, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" }); });
+    };
+
+    function go(next, dir = 1) {
+      next = (next + slides.length) % slides.length;
+      if (next === idx || busy) return;
+      const prev = idx, from = L.cars[prev].price, car = L.cars[next];
+      idx = next;
+      dots.forEach((d, i) => d.setAttribute("aria-selected", i === idx));
+      $("#sc-count").textContent = `${pad(idx + 1)} / ${pad(slides.length)}`;
+      link.href = `#car-${car.id}`;
+      const inS = slides[idx], outS = slides[prev];
+      if (!hasGsap || reduce) {
+        outS.classList.remove("is-active"); inS.classList.add("is-active");
+        body.innerHTML = showcaseBody(car); U().refreshIcons();
+        return restart();
+      }
+      busy = true;
+      inS.classList.add("is-active");
+      gsap.set(inS, { zIndex: 2 });
+      gsap.set(outS, { zIndex: 1 });
+      const img = inS.querySelector("img");
+      const tl = gsap.timeline({ onComplete: () => { outS.classList.remove("is-active"); gsap.set([inS, outS], { clearProps: "zIndex,clipPath" }); busy = false; } });
+      tl.fromTo(inS, { clipPath: dir > 0 ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0%)", duration: 0.9, ease: "expo.inOut" }, 0);
+      if (img) tl.fromTo(img, { scale: 1.18 }, { scale: 1, duration: 1.4, ease: "expo.out" }, 0);
+      tl.add(() => drawSilhouette(inS), 0.2);
+      // teks keluar → ganti → masuk
+      tl.to(body.querySelectorAll(".sc-line > *"), { yPercent: -110, duration: 0.35, ease: "power2.in", stagger: 0.04 }, 0)
+        .add(() => {
+          body.innerHTML = showcaseBody(car);
+          U().refreshIcons();
+          const price = body.querySelector("[data-price]");
+          const o = { v: from };
+          gsap.to(o, { v: car.price, duration: 0.8, ease: "power2.out", onUpdate: () => { price.textContent = fmt(Math.round(o.v / 1000) * 1000); } });
+          gsap.from(body.querySelectorAll(".sc-line > *"), { yPercent: 110, duration: 0.7, ease: "expo.out", stagger: 0.06 });
+        }, 0.38);
+      restart();
+    }
+
+    function restart() {
+      if (timer) timer.kill();
+      if (reduce || !hasGsap) return;
+      timer = gsap.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: DUR, ease: "none", onComplete: () => go(idx + 1) });
+      if (paused.size) timer.pause();
+    }
+    const pause = (k) => { paused.add(k); if (timer) timer.pause(); };
+    const resume = (k) => { paused.delete(k); if (!paused.size && timer) timer.resume(); };
+
+    dots.forEach((d) => d.addEventListener("click", () => go(+d.dataset.i, +d.dataset.i > idx ? 1 : -1)));
+    if (window.matchMedia("(hover: hover)").matches) {
+      root.addEventListener("mouseenter", () => pause("hover"));
+      root.addEventListener("mouseleave", () => resume("hover"));
+    }
+    root.addEventListener("focusin", () => pause("focus"));
+    root.addEventListener("focusout", () => resume("focus"));
+    document.addEventListener("visibilitychange", () => (document.hidden ? pause("tab") : resume("tab")));
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([en]) => (en.isIntersecting ? resume("view") : pause("view")), { threshold: 0.2 }).observe(root);
+    }
+
+    // Swipe di HP
+    let sx = null, sy = 0, swiped = false;
+    root.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; swiped = false; }, { passive: true });
+    root.addEventListener("touchend", (e) => {
+      if (sx === null) return;
+      const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { swiped = true; go(idx + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); }
+      sx = null;
+    });
+
+    // Klik kartu → scroll ke mobil yang sama di Armada + highlight
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (swiped) { swiped = false; return; }
+      const target = document.getElementById(`car-${L.cars[idx].id}`);
+      if (!target) return;
+      const flash = () => { target.classList.remove("is-highlight"); void target.offsetWidth; target.classList.add("is-highlight"); };
+      // Posisi layout (offsetTop tidak terpengaruh transform animasi reveal)
+      let y = 0;
+      for (let el = target; el; el = el.offsetParent) y += el.offsetTop;
+      y -= (parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-h"), 10) || 78) + 20;
+      const lenis = window.__lenis;
+      if (lenis) lenis.scrollTo(Math.max(0, y), { duration: 1.4, onComplete: flash });
+      else { window.scrollTo({ top: Math.max(0, y), behavior: reduce ? "auto" : "smooth" }); setTimeout(flash, 700); }
+    });
+
+    drawSilhouette(slides[0]);
+    restart();
+  }
+
   function init() {
     const { ico } = U();
+
+    renderShowcase();
+    renderHeroRoad();
 
     $("#areas").innerHTML = L.areas.map((a) => `<span class="marquee__item">${a} <i></i></span>`).join("");
 
@@ -108,6 +247,7 @@
 
   function afterReveal() {
     const { hasGsap, reduce } = U();
+    initShowcase();
     const steps = Array.from(document.querySelectorAll("#steps .step"));
     const path = $(".route__draw");
     if (hasGsap && !reduce && path) {
@@ -122,7 +262,7 @@
       });
       if (window.innerWidth < 900) steps.forEach((s) => ScrollTrigger.create({ trigger: s, start: "top 75%", onEnter: () => s.classList.add("is-on") }));
       // Siluet mobil "tergambar" saat terlihat
-      document.querySelectorAll(".car-fallback svg").forEach((svg) => {
+      document.querySelectorAll("#car-grid .car-fallback svg").forEach((svg) => {
         const parts = svg.querySelectorAll("path:not(.ground), circle");
         parts.forEach((p) => { const l = p.getTotalLength(); gsap.set(p, { strokeDasharray: l, strokeDashoffset: l }); });
         gsap.to(parts, { strokeDashoffset: 0, duration: 2, ease: "power2.inOut", stagger: 0.08, scrollTrigger: { trigger: svg, start: "top 85%", once: true } });

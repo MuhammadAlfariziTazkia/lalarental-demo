@@ -207,19 +207,64 @@ body.menu-open .mmenu nav a:nth-child(6) { transition-delay: .36s; }
 .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
 @media (max-width: 520px) { .hero__cta .btn { width: 100%; } }
 .hero__visual { position: relative; }
-.hero__frame { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4 / 3; background: var(--navy-2); box-shadow: var(--shadow-lg); }
-@media (min-width: 960px) { .hero__frame { aspect-ratio: 4 / 5; } }
-.hero__frame img { width: 100%; height: 118%; object-fit: cover; object-position: 92% center; }
-.hero__frame::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); pointer-events: none; }
-.hero__logo { position: absolute; left: -22px; bottom: -22px; width: 104px; height: 104px; border-radius: 50%; box-shadow: 0 0 0 4px var(--navy), 0 20px 40px -12px rgba(0, 0, 0, .6); z-index: 2; }
-@media (max-width: 959px) { .hero__logo { left: auto; right: 16px; bottom: -26px; width: 88px; height: 88px; } }
-.spin-ring { position: absolute; right: -34px; top: -34px; width: 132px; height: 132px; z-index: 2; display: none; }
-.spin-ring svg { width: 100%; height: 100%; animation: spin 20s linear infinite; }
-.spin-ring text { font-size: 9.5px; font-weight: 800; letter-spacing: .12em; fill: var(--silver); text-transform: uppercase; }
-@keyframes spin { to { transform: rotate(360deg); } }
-@media (min-width: 1200px) { .spin-ring { display: block; } }
+.hero__visual { max-width: 500px; width: 100%; justify-self: start; }
+@media (min-width: 960px) { .hero__visual { justify-self: end; } }
+.hero__logo { position: absolute; left: -24px; top: -24px; width: 96px; height: 96px; border-radius: 50%; box-shadow: 0 0 0 4px var(--navy), 0 20px 40px -12px rgba(0, 0, 0, .6); z-index: 3; pointer-events: none; }
+@media (max-width: 959px) { .hero__logo { left: -10px; top: -18px; width: 68px; height: 68px; box-shadow: 0 0 0 3px var(--navy), 0 12px 24px -10px rgba(0, 0, 0, .6); } }
 
-.facts { margin-top: clamp(56px, 8vw, 96px); border-top: 1px solid rgba(255, 255, 255, .12); }
+/* ---------- Showcase armada (hero) ---------- */
+.showcase { position: relative; border-radius: var(--radius-lg); padding: 10px; background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03)); border: 1px solid rgba(255, 255, 255, .14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: var(--shadow-lg); }
+.showcase__link { display: block; border-radius: calc(var(--radius-lg) - 10px); }
+.showcase__media { position: relative; aspect-ratio: 16 / 10; border-radius: calc(var(--radius-lg) - 10px); overflow: hidden; background: var(--navy-2); }
+@media (min-width: 960px) { .showcase__media { aspect-ratio: 4 / 3; } }
+.sc-slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
+.sc-slide.is-active { opacity: 1; visibility: visible; z-index: 1; }
+.sc-slide img { width: 100%; height: 100%; object-fit: cover; }
+.showcase__body { padding: 18px 14px 6px; min-height: 148px; display: grid; align-content: start; gap: 10px; }
+.sc-line { display: block; overflow: hidden; padding-bottom: .08em; }
+.sc-line > span { display: block; }
+.sc-brand { font-size: 13px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); }
+.sc-name { font-size: clamp(1.5rem, 2.4vw, 1.9rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.15; color: #fff; }
+.sc-price { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.sc-price strong { font-size: clamp(1.7rem, 2.8vw, 2.1rem); font-weight: 800; letter-spacing: -.035em; line-height: 1; font-variant-numeric: tabular-nums; color: #fff; }
+.sc-price .plate { box-shadow: inset 0 0 0 1.5px #0d0f14, inset 0 0 0 3px var(--silver); }
+.sc-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: rgba(56, 198, 230, .14); color: var(--cyan); font-size: 13px; font-weight: 700; }
+.sc-chip svg { width: 14px; height: 14px; }
+.showcase__foot { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 10px 14px; padding: 12px 14px 8px; }
+.showcase__count { font-size: 13px; font-weight: 800; letter-spacing: .12em; color: var(--silver); font-variant-numeric: tabular-nums; }
+.showcase__progress { height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .12); overflow: hidden; }
+.showcase__progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--royal-2), var(--cyan)); transform-origin: left; transform: scaleX(0); }
+.showcase__dots { grid-column: 1 / -1; display: flex; gap: 6px; justify-content: center; }
+.showcase__dots button { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; }
+.showcase__dots button::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, .28); transition: background-color .3s, transform .4s var(--ease); }
+.showcase__dots button[aria-selected="true"]::before { background: var(--cyan); transform: scale(1.35); }
+
+/* ---------- Jalan line-art + siluet mobil (hero) ---------- */
+.hero-road { position: relative; height: 78px; margin-top: clamp(44px, 7vw, 80px); overflow: hidden; }
+.hero-road::before { content: ""; position: absolute; left: 0; right: 0; bottom: 14px; height: 2px; background: repeating-linear-gradient(90deg, rgba(56, 198, 230, .45) 0 34px, transparent 34px 70px); animation: lane 2.6s linear infinite; }
+.hero-road::after { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 1px; background: rgba(255, 255, 255, .1); }
+.hero-car { position: absolute; left: 0; bottom: 8px; width: 120px; animation: drive 22s linear infinite; will-change: transform; }
+.hero-car svg { width: 100%; height: auto; overflow: visible; }
+.hero-car path, .hero-car circle { fill: none; stroke: var(--cyan); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; opacity: .75; }
+.hero-car .glass { stroke: var(--silver); opacity: .45; stroke-width: 1.8; }
+.hero-car:nth-child(2) { width: 132px; animation-duration: 28s; animation-delay: -11s; }
+.hero-car:nth-child(3) { width: 112px; animation-duration: 25s; animation-delay: -19s; }
+.hero-car:nth-child(3) path, .hero-car:nth-child(3) circle { stroke: var(--silver); opacity: .55; }
+@keyframes drive { from { transform: translateX(-180px); } to { transform: translateX(calc(100vw + 40px)); } }
+@media (max-width: 639px) {
+  .hero-road { height: 58px; }
+  .hero-car { width: 84px; } .hero-car:nth-child(2) { width: 92px; } .hero-car:nth-child(3) { width: 78px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-car { animation: none; } .hero-car:nth-child(1) { left: 8%; } .hero-car:nth-child(2) { left: 44%; } .hero-car:nth-child(3) { left: 78%; }
+}
+
+/* Kartu armada yang dituju dari showcase */
+.car-card { scroll-margin-top: calc(var(--header-h) + 20px); }
+.car-card.is-highlight { animation: highlight 1.6s var(--ease); }
+@keyframes highlight { 0% { box-shadow: 0 0 0 0 rgba(56, 198, 230, .0); } 25% { box-shadow: 0 0 0 6px rgba(56, 198, 230, .55); } 100% { box-shadow: 0 0 0 0 rgba(56, 198, 230, 0); } }
+
+.facts { border-top: 1px solid rgba(255, 255, 255, .12); }
 .facts .container { display: grid; grid-template-columns: repeat(2, 1fr); }
 .fact { padding: 22px 0; display: grid; gap: 4px; }
 .fact strong { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
